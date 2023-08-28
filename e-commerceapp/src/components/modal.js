@@ -4,6 +4,7 @@ import { addToCart } from "../store/cartSlice";
 import { useDispatch } from 'react-redux';
 
 const ProductModal = ({ product, closeModal }) => {
+    const[mymsg,setMsg]=useState('');
     const[state, setState]=useState(false);
     useEffect(() => {
         const modalElement = document.getElementById('staticBackdrop');
