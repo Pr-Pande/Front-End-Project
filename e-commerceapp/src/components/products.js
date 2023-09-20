@@ -1,16 +1,20 @@
 import DATA from "../Data";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
 import { NavLink } from "react-router-dom";
 import ProductModal from "./modal";
+import { addToCart } from "../store/cartSlice";
 
 const Product = () => {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
 
-    const openModal = (product) => {
-        setSelectedProduct(product);
+    const dispatch = useDispatch();
+
+    const openModal = (item) => {
+        setSelectedProduct(item);
         setModalIsOpen(true);
     };
 
@@ -18,6 +22,16 @@ const Product = () => {
         setSelectedProduct(null);
         setModalIsOpen(false);
     };
+
+    const handleAddToCart = (item) => {
+
+        dispatch(addToCart({
+            productId: item.id,
+            productTitle: item.title,
+            productPrice: item.price,
+            productImg: item.img
+        })); // Dispatch the addToCart action
+    }
 
     return (
         <div>
@@ -33,11 +47,11 @@ const Product = () => {
                             <div className="card" key={product.id}>
                                 <div className="img-container p-5">
                                     <NavLink to={`/product/${product.id}`}>
-                                        <img src={product.img} 
-                                        className="card-img-top" 
-                                        alt={product.title} 
-                                        height={"220px"} 
-                                        width={"300px"} />
+                                        <img src={product.img}
+                                            className="card-img-top"
+                                            alt={product.title}
+                                            height={"220px"}
+                                            width={"300px"} />
                                     </NavLink>
                                 </div>
                                 <div className="card-footer d-flex justify-content-between">
@@ -45,10 +59,13 @@ const Product = () => {
                                     <h5 className="font-italic mb-0" style={{ color: "#483d8b" }}><span className="mr-1">$</span>{product.price}</h5>
                                 </div>
                                 <div className="card-body">
-                                    <button type="button" className="btn btn-primary" 
-                                    onClick={() => openModal(product)}
-                                    data-toggle="modal" 
-                                    data-target="#staticBackdrop" 
+                                    <button type="button" className="btn btn-primary"
+                                        onClick={() => {
+                                            openModal(product);
+                                            handleAddToCart(product);
+                                        }}
+                                        data-toggle="modal"
+                                        data-target="#staticBackdrop"
                                     > Add To Cart </button>
                                 </div>
                             </div>

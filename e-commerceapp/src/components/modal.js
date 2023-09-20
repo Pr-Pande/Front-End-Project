@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { addToCart } from "../store/cartSlice";
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const ProductModal = ({ product, closeModal }) => {
-    const[mymsg,setMsg]=useState('');
-    const[state, setState]=useState(false);
+    const [state, setState] = useState(false);
     useEffect(() => {
         const modalElement = document.getElementById('staticBackdrop');
         modalElement.addEventListener('click', (e) => {
@@ -16,28 +13,20 @@ const ProductModal = ({ product, closeModal }) => {
         });
     }, []);
 
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleGoToCart = () => {
-        if (state)
-        {
+        if (state) {
             setState(true);
         } else {
             setState(false);
         }
-        
+
         navigate("/cart");
         //history.push('/cart');
         //jquery("#staticBackdrop").modal('hide');
-       // closeModal(); // Close the modal before navigating
+        // closeModal(); // Close the modal before navigating
         //document.body.classList.remove("modal-open"); // Remove modal-open class
-        dispatch(addToCart({
-            productId: product.id,
-            productTitle: product.title,
-            productPrice: product.price,
-            productImg: product.img
-        })); // Dispatch the addToCart action
     };
 
     return (

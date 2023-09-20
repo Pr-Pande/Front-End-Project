@@ -60,7 +60,7 @@ const Cart = () => {
                                         />
                                     </td>
                                     <td>
-                                        <span className="fa fa-trash me-1" style={{ color: "#daa520" }} onClick={() => handleRemove(item.productId)} ></span>
+                                        <span className="fa fa-trash me-1" style={{ color: "#daa520", cursor: "pointer" }} onClick={() => handleRemove(item.productId)} ></span>
                                     </td>
                                     <td>${item.productPrice * item.quantity}</td>
                                 </tr>
@@ -69,29 +69,31 @@ const Cart = () => {
                     </table>
                     <div className="subtotal-section">
                         <button className="btn btn-outline-danger" onClick={handleClearCart}>Clear Cart</button>
-                        <div className="subtotal">Subtotal: ${calculateSubtotal(cartItems)}</div>
-                        <div className="tax">Tax: ${calculateTax(cartItems)}</div>
-                        <div className="total">Final Total: ${calculateTotal(cartItems)}</div>
+                        <div style={{ lineHeight: "2.5" }}>
+                            <div className="subtotal"><b>Subtotal: ${calculateSubtotal(cartItems)}</b></div>
+                            <div className="tax"><b>Tax: ${calculateTax(cartItems)}</b></div>
+                            <div className="total"><b>Final Total: ${calculateTotal(cartItems)}</b></div>
+                        </div>
                     </div>
                 </div>
-        )}
+            )}
         </div>
     );
 };
-  
+
 const calculateSubtotal = (items) => {
     return items.reduce((total, item) => total + item.productPrice * item.quantity, 0);
 };
-  
+
 const calculateTax = (items) => {
     const subtotal = calculateSubtotal(items);
-            return (subtotal * 0.1).toFixed(2); // Example tax calculation (10%)
+    return (subtotal * 0.1).toFixed(1); // Example tax calculation (10%)
 };
-  
+
 const calculateTotal = (items) => {
     const subtotal = calculateSubtotal(items);
-            const tax = calculateTax(items);
-            return (subtotal + parseFloat(tax)).toFixed(2);
+    const tax = calculateTax(items);
+    return (subtotal + parseFloat(tax)).toFixed(1);
 };
 
 export default Cart;

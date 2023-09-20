@@ -9,7 +9,7 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const { productId, productTitle, productPrice, productImg } = action.payload;
       const existingItem = state.items.find(item => item.productId === productId);
-      
+
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
@@ -31,10 +31,6 @@ const cartSlice = createSlice({
       const item = state.items.find(item => item.productId === productId);
       if (item) {
         item.quantity = parseInt(quantity, 10);
-        if (item.quantity === 0)
-        {
-          removeFromCart();
-        }
       }
     },
     clearCart: (state) => {
